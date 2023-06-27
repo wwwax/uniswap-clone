@@ -8,7 +8,12 @@ import ConnectButton from './components/ConnectButton';
 import ConfigModal from './components/ConfigModal';
 import CurrencyField from './components/CurrencyField';
 
-import { getWethContract, getUniContract } from './AlphaRouterService';
+import {
+  getWethContract,
+  getUniContract,
+  getPrice,
+  runSwap,
+} from './AlphaRouterService';
 
 import './App.css';
 
@@ -72,6 +77,23 @@ function App() {
   if (signer !== undefined) {
     getWalletAddress();
   }
+
+  const getSwapPrice = (inputAmount) => {
+    setLoading(true);
+    setInputAmount(inputAmount);
+
+    const swap = getPrice(
+      inputAmount,
+      slippageAmount,
+      Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
+      signerAddress
+    ).then((data) => {
+      setTransaction(data[0]);
+      setOutputAmount(data[1]);
+      setRatio(data[2]);
+      setLoading(false);
+    });
+  };
 
   return (
     <div className="App">
