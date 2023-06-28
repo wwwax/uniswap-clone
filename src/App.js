@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { BeatLoader } from 'react-spinners';
-import { GearFill } from 'react-bootstrap-icons';
+// import { BeatLoader } from 'react-spinners';
+// import { GearFill } from 'react-bootstrap-icons';
 
 import PageButton from './components/PageButton';
 import ConnectButton from './components/ConnectButton';
-import ConfigModal from './components/ConfigModal';
-import CurrencyField from './components/CurrencyField';
+// import ConfigModal from './components/ConfigModal';
+// import CurrencyField from './components/CurrencyField';
 
-import {
-  getWethContract,
-  getUniContract,
-  getPrice,
-  runSwap,
-} from './AlphaRouterService';
+// import {
+//   getWethContract,
+//   getUniContract,
+//   getPrice,
+//   runSwap,
+// } from './AlphaRouterService';
 
 import './App.css';
 
@@ -22,38 +22,39 @@ function App() {
   const [signer, setSigner] = useState(undefined);
   const [signerAddress, setSignerAddress] = useState(undefined);
 
-  const [slippageAmount, setSlippageAmount] = useState(2);
-  const [deadlineMinutes, setDeadlineMinutes] = useState(10);
-  const [showModal, setShowModal] = useState(undefined);
-
-  const [inputAmount, setInputAmount] = useState(undefined);
-  const [outputAmount, setOutputAmount] = useState(undefined);
-  const [transaction, setTransaction] = useState(undefined);
-  const [loading, setLoading] = useState(undefined);
-  const [ratio, setRatio] = useState(undefined);
-  const [wethContract, setWethContract] = useState(undefined);
-  const [uniContract, setUniContract] = useState(undefined);
-  const [wethAmount, setWethAmount] = useState(undefined);
-  const [uniAmount, setUniAmount] = useState(undefined);
+  // const [slippageAmount, setSlippageAmount] = useState(2);
+  // const [deadlineMinutes, setDeadlineMinutes] = useState(10);
+  // const [showModal, setShowModal] = useState(undefined);
+  // const [inputAmount, setInputAmount] = useState(undefined);
+  // const [outputAmount, setOutputAmount] = useState(undefined);
+  // const [transaction, setTransaction] = useState(undefined);
+  // const [loading, setLoading] = useState(undefined);
+  // const [ratio, setRatio] = useState(undefined);
+  // const [wethContract, setWethContract] = useState(undefined);
+  // const [uniContract, setUniContract] = useState(undefined);
+  // const [wethAmount, setWethAmount] = useState(undefined);
+  // const [uniAmount, setUniAmount] = useState(undefined);
 
   useEffect(() => {
     const onLoad = async () => {
       const provider = await new ethers.providers.Web3Provider(window.ethereum);
       setProvider(provider);
 
-      const wethContract = getWethContract();
-      setWethContract(wethContract);
-
-      const uniContract = getUniContract();
-      setUniContract(uniContract);
+      // const wethContract = getWethContract();
+      // setWethContract(wethContract);
+      // const uniContract = getUniContract();
+      // setUniContract(uniContract);
     };
 
     onLoad();
   }, []);
 
-  const getSigner = (provider) => {
-    provider.send('eth_requestAccounts', []);
+  // TODO: разобраться с переменной provider
 
+  console.log('provider :>> ', provider);
+
+  const getSigner = async (provider) => {
+    provider.send('eth_requestAccounts', []);
     const signer = provider.getSigner();
     setSigner(signer);
   };
@@ -64,13 +65,13 @@ function App() {
     signer.getAddress().then((address) => {
       setSignerAddress(address);
 
-      wethContract.balanceOf(address).then((res) => {
-        setWethAmount(Number(ethers.utils.formatEther(res)));
-      });
+      // wethContract.balanceOf(address).then((res) => {
+      //   setWethAmount(Number(ethers.utils.formatEther(res)));
+      // });
 
-      uniContract.balanceOf(address).then((res) => {
-        setUniAmount(Number());
-      });
+      // uniContract.balanceOf(address).then((res) => {
+      //   setUniAmount(Number());
+      // });
     });
   };
 
@@ -78,22 +79,21 @@ function App() {
     getWalletAddress();
   }
 
-  const getSwapPrice = (inputAmount) => {
-    setLoading(true);
-    setInputAmount(inputAmount);
-
-    const swap = getPrice(
-      inputAmount,
-      slippageAmount,
-      Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
-      signerAddress
-    ).then((data) => {
-      setTransaction(data[0]);
-      setOutputAmount(data[1]);
-      setRatio(data[2]);
-      setLoading(false);
-    });
-  };
+  // const getSwapPrice = (inputAmount) => {
+  //   setLoading(true);
+  //   setInputAmount(inputAmount);
+  //   const swap = getPrice(
+  //     inputAmount,
+  //     slippageAmount,
+  //     Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
+  //     signerAddress
+  //   ).then((data) => {
+  //     setTransaction(data[0]);
+  //     setOutputAmount(data[1]);
+  //     setRatio(data[2]);
+  //     setLoading(false);
+  //   });
+  // };
 
   return (
     <div className="App">
@@ -121,7 +121,7 @@ function App() {
         </div>
       </div>
 
-      <div className="appBody">
+      {/* <div className="appBody">
         <div className="swapContainer">
           <div className="swapHeader">
             <span className="swapText">Swap</span>
@@ -137,7 +137,6 @@ function App() {
                 slippageAmount={slippageAmount}
               />
             )}
-
             <div className="swapBody">
               <CurrencyField
                 field="input"
@@ -158,7 +157,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
