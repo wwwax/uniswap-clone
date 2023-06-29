@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 // import { BeatLoader } from 'react-spinners';
-// import { GearFill } from 'react-bootstrap-icons';
+import { GearFill } from 'react-bootstrap-icons';
 
 import PageButton from './components/PageButton';
 import ConnectButton from './components/ConnectButton';
-// import ConfigModal from './components/ConfigModal';
+import ConfigModal from './components/ConfigModal';
 // import CurrencyField from './components/CurrencyField';
 
 // import {
@@ -22,9 +22,10 @@ function App() {
   const [signer, setSigner] = useState(undefined);
   const [signerAddress, setSignerAddress] = useState(undefined);
 
-  // const [slippageAmount, setSlippageAmount] = useState(2);
-  // const [deadlineMinutes, setDeadlineMinutes] = useState(10);
-  // const [showModal, setShowModal] = useState(undefined);
+  const [showModal, setShowModal] = useState(undefined);
+  const [slippageAmount, setSlippageAmount] = useState(2);
+  const [deadlineMinutes, setDeadlineMinutes] = useState(10);
+
   // const [inputAmount, setInputAmount] = useState(undefined);
   // const [outputAmount, setOutputAmount] = useState(undefined);
   // const [transaction, setTransaction] = useState(undefined);
@@ -48,10 +49,6 @@ function App() {
 
     onLoad();
   }, []);
-
-  // TODO: разобраться с переменной provider
-
-  console.log('provider :>> ', provider);
 
   const getSigner = async (provider) => {
     provider.send('eth_requestAccounts', []);
@@ -121,7 +118,7 @@ function App() {
         </div>
       </div>
 
-      {/* <div className="appBody">
+      <div className="appBody">
         <div className="swapContainer">
           <div className="swapHeader">
             <span className="swapText">Swap</span>
@@ -138,7 +135,7 @@ function App() {
               />
             )}
             <div className="swapBody">
-              <CurrencyField
+              {/* <CurrencyField
                 field="input"
                 tokenName="WETH"
                 getSwapPrice={getSwapPrice}
@@ -153,11 +150,11 @@ function App() {
                 balance={uniAmount}
                 spinner={BeatLoader}
                 loading={loading}
-              />
+              /> */}
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
