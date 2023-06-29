@@ -1,7 +1,8 @@
+import { BeatLoader } from 'react-spinners';
+
 const CurrencyField = ({
   getSwapPrice,
   loading,
-  spinner,
   value,
   field,
   tokenName,
@@ -16,8 +17,7 @@ const CurrencyField = ({
       <div className="col-md-6 numberContainer">
         {loading ? (
           <div className="spinnerContainer">
-            {/* <spinner /> */}
-            {spinner}
+            <BeatLoader />
           </div>
         ) : (
           <input

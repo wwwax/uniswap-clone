@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-// import { BeatLoader } from 'react-spinners';
 import { GearFill } from 'react-bootstrap-icons';
 
 import PageButton from './components/PageButton';
 import ConnectButton from './components/ConnectButton';
 import ConfigModal from './components/ConfigModal';
-// import CurrencyField from './components/CurrencyField';
+import CurrencyField from './components/CurrencyField';
 
 // import {
 //   getWethContract,
@@ -23,18 +22,22 @@ function App() {
   const [signerAddress, setSignerAddress] = useState(undefined);
 
   const [showModal, setShowModal] = useState(undefined);
+  const [loading, setLoading] = useState(undefined);
+
   const [slippageAmount, setSlippageAmount] = useState(2);
   const [deadlineMinutes, setDeadlineMinutes] = useState(10);
 
-  // const [inputAmount, setInputAmount] = useState(undefined);
-  // const [outputAmount, setOutputAmount] = useState(undefined);
-  // const [transaction, setTransaction] = useState(undefined);
-  // const [loading, setLoading] = useState(undefined);
-  // const [ratio, setRatio] = useState(undefined);
-  // const [wethContract, setWethContract] = useState(undefined);
-  // const [uniContract, setUniContract] = useState(undefined);
-  // const [wethAmount, setWethAmount] = useState(undefined);
-  // const [uniAmount, setUniAmount] = useState(undefined);
+  const [inputAmount, setInputAmount] = useState(undefined);
+  const [outputAmount, setOutputAmount] = useState(undefined);
+
+  const [transaction, setTransaction] = useState(undefined);
+  const [ratio, setRatio] = useState(undefined);
+
+  const [wethContract, setWethContract] = useState(undefined);
+  const [uniContract, setUniContract] = useState(undefined);
+
+  const [wethAmount, setWethAmount] = useState(undefined);
+  const [uniAmount, setUniAmount] = useState(undefined);
 
   useEffect(() => {
     const onLoad = async () => {
@@ -76,21 +79,21 @@ function App() {
     getWalletAddress();
   }
 
-  // const getSwapPrice = (inputAmount) => {
-  //   setLoading(true);
-  //   setInputAmount(inputAmount);
-  //   const swap = getPrice(
-  //     inputAmount,
-  //     slippageAmount,
-  //     Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
-  //     signerAddress
-  //   ).then((data) => {
-  //     setTransaction(data[0]);
-  //     setOutputAmount(data[1]);
-  //     setRatio(data[2]);
-  //     setLoading(false);
-  //   });
-  // };
+  const getSwapPrice = (inputAmount) => {
+    // setLoading(true);
+    // setInputAmount(inputAmount);
+    // const swap = getPrice(
+    //   inputAmount,
+    //   slippageAmount,
+    //   Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
+    //   signerAddress
+    // ).then((data) => {
+    //   setTransaction(data[0]);
+    //   setOutputAmount(data[1]);
+    //   setRatio(data[2]);
+    //   setLoading(false);
+    // });
+  };
 
   return (
     <div className="App">
@@ -125,6 +128,7 @@ function App() {
             <span className="gearContainer" onClick={() => setShowModal(true)}>
               <GearFill />
             </span>
+
             {showModal && (
               <ConfigModal
                 onClose={() => setShowModal(false)}
@@ -134,24 +138,25 @@ function App() {
                 slippageAmount={slippageAmount}
               />
             )}
-            <div className="swapBody">
-              {/* <CurrencyField
-                field="input"
-                tokenName="WETH"
-                getSwapPrice={getSwapPrice}
-                signer={signer}
-                balance={wethAmount}
-              />
-              <CurrencyField
-                field="output"
-                tokenName="UNI"
-                value={outputAmount}
-                signer={signer}
-                balance={uniAmount}
-                spinner={BeatLoader}
-                loading={loading}
-              /> */}
-            </div>
+          </div>
+
+          <div className="swapBody">
+            <CurrencyField
+              field="input"
+              tokenName="WETH"
+              getSwapPrice={getSwapPrice}
+              signer={signer}
+              balance={wethAmount}
+            />
+
+            <CurrencyField
+              field="output"
+              tokenName="UNI"
+              value={outputAmount}
+              signer={signer}
+              balance={uniAmount}
+              loading={loading}
+            />
           </div>
         </div>
       </div>
