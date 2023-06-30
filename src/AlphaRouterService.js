@@ -10,10 +10,11 @@ const {
 const { ethers, BigNumber } = require('ethers');
 const JSBI = require('jsbi');
 const ERC20ABI = require('./abi.json');
+
 const V3_SWAP_ROUTER_ADDRESS = '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45';
 const REACT_APP_INFURA_URL_TESTNET = process.env.REACT_APP_INFURA_URL_TESTNET;
 
-const chainId = 3;
+const chainId = 11155111;
 
 const web3Provider = new ethers.providers.JsonRpcProvider(
   REACT_APP_INFURA_URL_TESTNET
@@ -71,7 +72,7 @@ export const getPrice = async (
   };
 
   const quoteAmountOut = route.quote.toFixed(6);
-  const ratio = (quoteAmountOut / inputAmount).toFixed(3);
+  const ratio = (inputAmount / quoteAmountOut).toFixed(3);
 
   return [transaction, quoteAmountOut, ratio];
 };

@@ -7,12 +7,12 @@ import ConnectButton from './components/ConnectButton';
 import ConfigModal from './components/ConfigModal';
 import CurrencyField from './components/CurrencyField';
 
-// import {
-//   getWethContract,
-//   getUniContract,
-//   getPrice,
-//   runSwap,
-// } from './AlphaRouterService';
+import {
+  getWethContract,
+  getUniContract,
+  getPrice,
+  runSwap,
+} from './AlphaRouterService';
 
 import './App.css';
 
@@ -44,10 +44,11 @@ function App() {
       const provider = await new ethers.providers.Web3Provider(window.ethereum);
       setProvider(provider);
 
-      // const wethContract = getWethContract();
-      // setWethContract(wethContract);
-      // const uniContract = getUniContract();
-      // setUniContract(uniContract);
+      const wethContract = getWethContract();
+      setWethContract(wethContract);
+
+      const uniContract = getUniContract();
+      setUniContract(uniContract);
     };
 
     onLoad();
@@ -59,19 +60,21 @@ function App() {
     setSigner(signer);
   };
 
-  const isConnected = signer !== undefined;
+  const isConnected = () => {
+    return signer !== undefined;
+  };
 
   const getWalletAddress = () => {
     signer.getAddress().then((address) => {
       setSignerAddress(address);
 
-      // wethContract.balanceOf(address).then((res) => {
-      //   setWethAmount(Number(ethers.utils.formatEther(res)));
-      // });
+      wethContract.balanceOf(address).then((res) => {
+        setWethAmount(Number(ethers.utils.formatEther(res)));
+      });
 
-      // uniContract.balanceOf(address).then((res) => {
-      //   setUniAmount(Number());
-      // });
+      uniContract.balanceOf(address).then((res) => {
+        setUniAmount(Number());
+      });
     });
   };
 
@@ -80,19 +83,20 @@ function App() {
   }
 
   const getSwapPrice = (inputAmount) => {
-    // setLoading(true);
-    // setInputAmount(inputAmount);
-    // const swap = getPrice(
-    //   inputAmount,
-    //   slippageAmount,
-    //   Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
-    //   signerAddress
-    // ).then((data) => {
-    //   setTransaction(data[0]);
-    //   setOutputAmount(data[1]);
-    //   setRatio(data[2]);
-    //   setLoading(false);
-    // });
+    setLoading(true);
+    setInputAmount(inputAmount);
+
+    const swap = getPrice(
+      inputAmount,
+      slippageAmount,
+      Math.floor(Date.now() / 1000 + deadlineMinutes * 60),
+      signerAddress
+    ).then((data) => {
+      setTransaction(data[0]);
+      setOutputAmount(data[1]);
+      setRatio(data[2]);
+      setLoading(false);
+    });
   };
 
   return (
@@ -157,6 +161,25 @@ function App() {
               balance={uniAmount}
               loading={loading}
             />
+          </div>
+
+          <div className="ratioContainer">
+            {ratio && <>{`1 UNI = ${ratio} WETH`}</>}
+          </div>
+
+          <div className="swapButtonContainer">
+            {isConnected() ? (
+              <div
+                className="swapButton"
+                onClick={() => runSwap(transaction, signer)}
+              >
+                Swap
+              </div>
+            ) : (
+              <div className="swapButton" onClick={() => getSigner(provider)}>
+                Connect Wallet
+              </div>
+            )}
           </div>
         </div>
       </div>
